@@ -1,150 +1,413 @@
-/*Create a database named SalesDB*/
-create database sales_db;
+/*Creating the database */
+create database moviedb_ac
+use moviedb_ac
 
-/* switch to the database*/
-use sales_db;
+/*Create the Movie relation with the following attributes. Movie ID is the primary key:
+Movie ID, Movie Title, Movie Year, Movie Time, Movie Language, Movie Release Date, 
+Movie Release Country */
+create table movie (
+movie_id int primary key,
+movie_title varchar(30),
+movie_year int,
+movie_time int,
+movie_language varchar(15),
+movie_rl_date date,
+movie_rl_country varchar(30)
+)
 
-/*create customer relation*/
-create table customers (
-customer_id varchar(50) primary key,
-customer_name varchar(50),
-);
-/*Populating  the customer relation*/
-insert into customers values
+/*Create the Actor relation with the following attributes with Actor ID as the primary key:
+Actor ID, First Name , Last Name , Gender. */
+create table actor (
+actor_id int primary key,
+first_name varchar(25),
+last_name varchar(25),
+gender varchar
+)
 
-('CG-12520',	'Claire Gute'),
-('WG-45983',	'Henry Stalin'),
-('DV-13045', 'Darrin Van Huff'),
-('SO-20335',	'Sean ODonnell'),
-('BH-11710',	'Brosina Hoffman'),
-('AA-10480',	'Andrew Allen'),
-('IM-15070',	'Irene Maddox'),
-('HP-14815',	'Harold Pawlan'),
-('PK-19075',	'Pete Kriz'),
-('AG-10270',	'Alejandro Grove'),
-('ZD-21925',	'Zuschuss Donatelli'),
-('KB-16585',	'Ken Black'),
-('SF-20065',	'Sandra Flanagan'),
-('EB-13870',	'Emily Burns'),
-('RV-8346',	'Matt Damon');
+/*Create the Director relation with the following attributes with Director ID as the primary key:
+Director ID, First Name, Last Name.*/
+create table director (
+director_id int primary key,
+first_name varchar(25),
+last_name varchar(30)
+)
+
+/*Create the Genre relation with the following attributes, specifying primary and foreign keys:
+Genre ID, Genre Title*/
+create table genre (
+genre_id int primary key,
+genre_title varchar(15)
+)
+
+/*Create the Movie Genres relation with the following attributes, specifying primary and foreign keys:
+Movie ID, Genre ID	*/
+create table movie_genres (
+movie_id int primary key,
+genre_id int,
+foreign key (movie_id) references movie(movie_id),
+foreign key (genre_id) references genre(genre_id)
+)
+
+/*Create the Movie Direction relation with the following attributes, specifying primary and foreign keys:
+Director ID, Movie ID */
+create table movie_direction (
+director_id int primary key,
+movie_id int,
+foreign key (director_id) references director (director_id),
+foreign key (movie_id) references movie(movie_id)
+)
+
+/*Create the Reviewer relation with the following attributes, specifying primary and foreign keys:
+Reviewer ID, Reviewer Name */
+create table reviewer (
+reviewer_id int primary key,
+reviewer_name varchar(50)
+)
+
+/*Create the Rating relation with the following attributes, specifying primary and foreign keys:
+Movie ID, Reviewer ID, Reviewer Stars, Number of Ratings */
+create table rating (
+movie_id int primary key,
+reviewer_id int,
+reviewer_stars float,
+number_ratings int,
+foreign key (movie_id) references movie(movie_id),
+foreign key (reviewer_id) references reviewer(reviewer_id)
+)
+
+/*Create the Movie Cast relation with the following attributes, specifying primary and foreign keys:
+Actor ID, Movie ID, Role. */
+create table movie_cast (
+actor_id int primary key,
+movie_id int,
+role varchar(30),
+foreign key (actor_id) references actor(actor_id),
+foreign key (movie_id) references movie(movie_id)
+)
+
+/*Insert into movie relation */
+insert into movie values
+(901, 'Vertigo', 1958, 128, 'English', '1958-08-24', 'UK'),
+(902, 'The Innocents', 1961, 100, 'English', '1962-02-19', 'SW'),
+(903, 'Lawrence of Arabia', 1962, 216, 'English', '1962-12-11', 'UK'),
+(904, 'The Deer Hunter', 1978, 183, 'English', '1979-03-08', 'UK'),
+(905, 'Amadeus', 1984, 160, 'English', '1985-01-07', 'UK'),
+(906, 'Blade Runner', 1982, 117, 'English', '1982-09-09', 'UK'),
+(907, 'Eyes Wide Shut', 1999, 159, 'English', NULL, 'UK'),
+(908, 'The Usual Suspects', 1995, 106, 'English', '1995-08-25', 'UK'),
+(909, 'Chinatown', 1974, 130, 'English', '1974-08-09', 'UK'),
+(910, 'Boogie Nights', 1997, 155, 'English', '1998-02-16', 'UK'),
+(911, 'Annie Hall', 1977, 93, 'English', '1977-04-20', 'USA'),
+(912, 'Princess Mononoke', 1997, 134, 'Japanese', '2001-10-19', 'UK'),
+(913, 'The Shawshank Redemption', 1994, 142, 'English', '1995-02-17', 'UK'),
+(914, 'American Beauty', 1999, 122, 'English', NULL, 'UK'),
+(915, 'Titanic', 1997, 194, 'English', '1998-01-23', 'UK'),
+(916, 'Good Will Hunting', 1997, 126, 'English', '1998-06-03', 'UK'),
+(917, 'Deliverance', 1972, 109, 'English', '1982-10-05', 'UK'),
+(918, 'Trainspotting', 1996, 94, 'English', '1996-02-23', 'UK'),
+(919, 'The Prestige', 2006, 130, 'English', '2006-11-10', 'UK'),
+(920, 'Donnie Darko', 2001, 113, 'English', NULL, 'UK'),
+(921, 'Slumdog Millionaire', 2008, 120, 'English', '2009-01-09', 'UK'),
+(922, 'Aliens', 1986, 137, 'English', '1986-08-29', 'UK'),
+(923, 'Beyond the Sea', 2004, 118, 'English', '2004-11-26', 'UK'),
+(924, 'Avatar', 2009, 162, 'English', '2009-12-17', 'UK'),
+(926, 'Seven Samurai', 1954, 207, 'Japanese', '1954-04-26', 'JP'),
+(927, 'Spirited Away', 2001, 125, 'Japanese', '2003-09-12', 'UK'),
+(928, 'Back to the Future', 1985, 116, 'English', '1985-12-04', 'UK'),
+(925, 'Braveheart', 1995, 178, 'English', '1995-09-08', 'UK');
+
+/*Inserting into actor relation */
+insert into actor values 
+(101, 'James', 'Stewart', 'M'),
+(102, 'Deborah', 'Kerr', 'F'),
+(103, 'Peter', 'OToole', 'M'),
+(104, 'Robert', 'De Niro', 'M'),
+(105, 'F. Murray', 'Abraham', 'M'),
+(106, 'Harrison', 'Ford', 'M'),
+(107, 'Nicole', 'Kidman', 'F'),
+(108, 'Stephen', 'Baldwin', 'M'),
+(109, 'Jack', 'Nicholson', 'M'),
+(110, 'Mark', 'Wahlberg', 'M'),
+(111, 'Woody', 'Allen', 'M'),
+(112, 'Claire', 'Danes', 'F'),
+(113, 'Tim', 'Robbins', 'M'),
+(114, 'Kevin', 'Spacey', 'M'),
+(115, 'Kate', 'Winslet', 'F'),
+(116, 'Robin', 'Williams', 'M'),
+(117, 'Jon', 'Voight', 'M'),
+(118, 'Ewan', 'McGregor', 'M'),
+(119, 'Christian', 'Bale', 'M'),
+(120, 'Maggie', 'Gyllenhaal', 'F'),
+(121, 'Dev', 'Patel', 'M'),
+(122, 'Sigourney', 'Weaver', 'F'),
+(123, 'David', 'Aston', 'M'),
+(124, 'Ali', 'Astin', 'F');
+
+/*Inserting into director relation */
+insert into director values
+(201, 'Alfred', 'Hitchcock'),
+(202, 'Jack', 'Clayton'),
+(203, 'David', 'Lean'),
+(204, 'Michael', 'Cimino'),
+(205, 'Milos', 'Forman'),
+(206, 'Ridley', 'Scott'),
+(207, 'Stanley', 'Kubrick'),
+(208, 'Bryan', 'Singer'),
+(209, 'Roman', 'Polanski'),
+(210, 'Paul Thomas', 'Anderson'),
+(211, 'Woody', 'Allen'),
+(212, 'Hayao', 'Miyazaki'),
+(213, 'Frank', 'Darabont'),
+(214, 'Sam', 'Mendes'),
+(215, 'James', 'Cameron'),
+(216, 'Gus', 'Van Sant'),
+(217, 'John', 'Boorman'),
+(218, 'Danny', 'Boyle'),
+(219, 'Christopher', 'Nolan'),
+(220, 'Richard', 'Kelly'),
+(221, 'Kevin', 'Spacey'),
+(222, 'Andrei', 'Tarkovsky'),
+(223, 'Peter', 'Jackson');
 
 
+/*Inserting into genre relation */
+insert into genre values 
+(1001, 'Action'),
+(1002,  'Adventure'),
+(1003, 'Animation'),
+(1004, 'Biography'),
+(1005, 'Comedy'),
+(1006, 'Crime'),
+(1007, 'Drama'),
+(1008, 'Horror'),
+(1009, 'Music'),
+(1010, 'Mystery'),
+(1011, 'Romance'),
+(1012, 'Thriller'),
+(1013, 'War');
 
-/* create order relation*/
-create table orders ( 
-order_id varchar(20) primary key,
-order_date date
-);
-insert into orders values
-('CA-2016-152156', '2016-11-08'),
-('CA-2016-114412', '2016-04-15'),
-('US-2015-108966', '2019-11-01'),
-('CA-2014-115812', '2018-08-27'),
-('CA-2016-138688',	'2016-06-12'),
-('CA-2016-161389','2016-12-05'),
-('US-2015-118983','2018-11-22'),
-('CA-2014-105893','2018-11-11'),
-('CA-2014-167164','2018-05-13'),
-('CA-2014-143336','2018-08-27'),
-('CA-2014-143452','2019-02-20'),
-('CA-2016-137330','2018-12-09'),
-('US-2016-137330','2016-12-20'),
-('US-2016-156909','2018-07-16'),
-('CA-2015-106320','2019-04-25');
+/*Insertint into the movie genre relation */
+insert into movie_genres values
+(922, 1001), 
+(917, 1002), 
+(903, 1002), 
+(912, 1003),
+(911, 1005), 
+(908, 1006), 
+(913, 1006),
+(926, 1007), 
+(928, 1007),
+(918, 1007),
+(921, 1007), 
+(902, 1008), 
+(923, 1009),
+(907, 1010), 
+(927, 1010),
+(901, 1010), 
+(914, 1011), 
+(906, 1012),
+(904, 1013), 
+(905, 1007), 
+(909, 1006), 
+(910, 1007),
+(915, 1007),
+(916, 1007), 
+(920, 1007),
+(925, 1007),
+(924, 1001), 
+(919, 1012); 
 
+/*Inserting into the movie direction relation */
+insert into movie_direction values 
+(201, 901),
+(202, 902),
+(203, 903),
+(204, 904),
+(205, 905),
+(206, 906),
+(207, 907),
+(208, 908),
+(209, 909),
+(210, 910),
+(211, 911),
+(212, 912),
+(213, 913),
+(214, 914),
+(215, 915),
+(216, 916),
+(217, 917),
+(218, 918),
+(219, 919),
+(220, 920),
+(221, 923)
 
-
-/*create products relation */
-create table products (
-product_id varchar(15) primary key,
-product_category varchar(20),
-product_sub_category varchar(20),
-product_name varchar(100)
-);
-/*Populating products relation */
-insert into products values (
-('FUR-BO-10001798','Furniture','Bookcases','Bush Somerset Collection Bookcase'),
-('FUR-CH-10000454','Furniture','Chairs','Hon Deluxe Fabric Upholstered Stacking Chairs, Rounded Back'),
-('OFF-LA-10000240','Office Supplies','Labels','Self-Adhesive Address Labels for Typewriters by Universal'),
-('FUR-TA-10000577','Furniture','Tables','Bretford CR4500 Series Slim Rectangular Table'),
-('FUR-FU-10001487',	'Furniture','Furnishings','Eldon Expressions Wood and Plastic Desk Accessories, Cherry Wood'),
-('TEC-PH-10002275','Technology','Phones','Mitel 5320 IP Phone VoIP phone'),
-('OFF-BI-10002215','Office Supplies','Binders','Wilson Jones Hanging View Binder, White, 1"'),
-('OFF-AP-10001492','Office Supplies','Appliances','Acco Six-Outlet Power Strip, 4" Cord Length'),
-('FUR-CH-10002774','Furniture','Chairs','Global Deluxe Stacking Chair, Gray'),
-('TEC-AC-10003027','Technology','Accessories','Imation 8GB Mini TravelDrive USB 2.0 Flash Drive'),
-('FUR-BO-10004834','Furniture','Bookcases','Riverside Palais Royal Lawyers Bookcase, Royale Cherry Finish'),
-('FUR-FU-10004848','Furniture','Furnishings','Howard Miller 13-3/4" Diameter Brushed Chrome Round Wall Clock'),
-('OFF-EN-10001509','Office Supplies','Envelopes','Poly String Tie Envelopes'),
-('OFF-AR-10004042','Office Supplies','Art','BOSTON Model 1800 Electric Pencil Sharpeners, Putty/Woodgrain');
-
-
-/*create regions relation */
-create table regions (
-place_id int primary key,
-city varchar(20),
-state varchar(20)
-);
-/*Populating the regions relation*/
-insert into regions values (
-'1','Henderson','Kentucky'),
-('2','Los Angeles','California'),
-('3','Los Angeles','California'),
-('4','Concord','North Carolina'),
-('5','Seattle','Washington'),
-('6','Fort Worth','Texas'),
-('7','Madison','Wisconsin'),
-('8','West Jordan','Utah'),
-('9','San Francisco','California'),
-('10','Fremont','Nebraska'),
-('11','Fremont','Nebraska'),
-('12','Philadelphia','Pennsylvania'),
-('13','Orem','Utah'),
-('14','Los Angeles','California'),
-('15','Philadelphia','Pennsylvania');
-
-
-/*create the sales relation */
-create table sales (
-order_id varchar(20),
-customer_id varchar(10) foreign key references customers(customer_id),
-place_id int foreign key references regions(place_id),
-product_id varchar(15) foreign key references products (product_id),
-sales_id int,
-sales int,
-quantity int,
-discount decimal(10,2),
-cost int,
-foreign key(order_id) references orders(order_id)
-);
-
-/*Populating the sales relation */
-insert into sales values 
-('CA-2016-152156','CG-12520',1,'FUR-BO-10001798',1,1222610,200,0.00,120000),
-('CA-2016-138688','WG-45983',2,'FUR-CH-10000454',2,1731000,389,0,170000),
-('US-2015-108966','DV-13045',3,'OFF-LA-10000240',3,986520,422,0,92000),
-('CA-2014-115812','SO-20335',4,'FUR-TA-10000577',4,957000,501,0.45,90000),
-('CA-2016-114412','BH-11710',5,'FUR-FU-10001487',5,2236820,290,0.20,215000),
-('CA-2016-161389','AA-10480',6,'TEC-PH-10002275',6,4886000,720,0,485000),
-('US-2015-118983','IM-15070',7,'OFF-BI-10002215',7,7282020,450,0,728202),
-('CA-2014-105893','HP-14815',8,'OFF-AP-10001492',8,9071520,650,0.20,890000),
-('CA-2014-167164','PK-19075',9,'FUR-CH-10002774',9,1805040,320,0.20,170000),
-('CA-2014-143336','AG-10270',10,'FUR-TA-10000577',10,1149000,560,0,108900),
-('CA-2014-143452','ZD-21925',11,'TEC-AC-10003027',11,1706840,900,0.20,150000),
-('CA-2016-137330','KB-16585',12 ,'FUR-BO-10004834',12,9114240,410,0.20,908500),
-('US-2016-137330','SF-20065',13,'FUR-FU-10004848',13,1555200,305,0.20,140000),
-('US-2016-156909','EB-13870',14,'OFF-EN-10001509',14,4079760,310,0.20,400976),
-('CA-2015-106320','RV-8346',15,'OFF-AR-10004042',15,6881000,540,0.50,680100);
+/*Inserting into the reviewer relation */
+insert into reviewer values 
+(9001, 'Righty Sock'),
+(9002, 'Jack Malvern'),
+(9003, 'Flagrant Baronessa'),
+(9004, 'Alec Shaw'),
+(9005,	NULL),
+(9006,	'Victor Woeltjen'),
+(9007,	'Simon Wright'),
+(9008,	'Neal Wruck'),
+(9009,	'Paul Monks'),
+(9010,	'Mike Salvati'),
+(9011,	NULL),
+(9012,	'Wesley S. Walker'),
+(9013,	'Sasha Goldshtein'),
+(9014,	'Josh Cates'),
+(9015,	'Krug Stillo'),
+(9016,	'Scott LeBrun'),
+(9017,	'Hannah Steele'),
+(9018,	'Vincent Cadena'),
+(9019,	'Brandt Sponseller'),
+(9020,	'Richard Adams');
 
 
-select * from customers;
-select * from products;
-select * from regions;
-select * from orders;
-select * from sales;
+/*Inserting into the ratings relation */
+insert into rating values 
+(901, 9001, 8.40, 263575),
+(902, 9002, 7.90, 20207),
+(903, 9003, 8.30, 202778),
+(906, 9005, 8.20, 484746),
+(924, 9006, 7.30, NULL), 
+(908, 9007, 8.60, 779489),
+(909, 9008, NULL, 227235),
+(910, 9009, 3.00, 195961),
+(911, 9010, 8.10, 203875),
+(912, 9011, 8.40, NULL),
+(914, 9013, 7.00, 862618),
+(915, 9001, 7.70, 830095),
+(916, 9014, 4.00, 642132),
+(925, 9015, 7.70, 81328),
+(918, 9016, NULL, 580301),
+(920, 9017, 8.10, 609451),
+(921, 9018, 8.00, 667758),
+(922, 9019, 8.40, 511613),
+(923, 9020, 6.70, 13091);
 
-drop table customers;
-drop table products;
-drop table regions;
-drop table orders;
-drop table sales;
+/*inserting into the movie cast relation */
+insert into movie_cast values 
+(101, 901, 'John Scottie Ferguson'),
+(102, 902, 'Miss Giddens'),
+(103, 903, 'T.E. Lawrence'),
+(104, 904, 'Michael'),
+(105, 905, 'Antonio Salieri'),
+(106, 906, 'Rick Deckard'),
+(107, 907, 'Alice Harford'),
+(108, 908, 'McManus'),
+(110, 910, 'Eddie Adams'),
+(111, 911, 'Alvy Singer'),
+(112, 912, 'San'),
+(113, 913, 'Andy Dufresne'),
+(114, 914, 'Lester Burnham'),
+(115, 915, 'Rose DeWitt Bukater'),
+(116, 916, 'Sean Maguire'),
+(117, 917, 'Ed'),
+(118, 918, 'Renton'),
+(120, 920, 'Elizabeth Darko'),
+(121, 921, 'Older Jamal'),
+(122, 922, 'Ripley'),
+(109, 909, 'J.J. Gittes'),
+(119, 919, 'Alfred Borden');
+
+/*Write a SQL query to edit the reviewer stars of the movie with movie ID 909 to 8.45 */
+update rating set reviewer_stars = 8.45 where movie_id = 909;
+
+/*Write a SQL query to find when the movie 'American Beauty' released. Return movie release year.	*/
+select movie_year from movie where movie_title = 'American Beauty';
+
+/*Write a SQL query to find all reviewers who have rated seven or more stars to their 
+rating. Return reviewer name.*/
+select reviewer_name from reviewer
+	join rating on
+		reviewer.reviewer_id = rating.reviewer_id
+			where rating.reviewer_stars >= 7
+
+/*Write a SQL query to find the movie titles that contain the words 'Boogie Nights'. Sort 
+the result in ascending order of the movie release year. Return movie ID, movie title and 
+movie release year*/
+select movie_id, movie_title, movie_year
+	from movie 
+		where movie_title like '%Boogie Nights%'
+			order by movie_year
+
+/*Write a SQL query to find out who was cast in the movie 'Annie Hall'. Return actor first 
+name, last name and role.	*/
+select first_name, last_name, role 
+	from actor join movie_cast
+		on actor.actor_id = movie_cast.actor_id 
+		join movie on movie.movie_id = movie_cast.movie_id
+		where movie.movie_title = 'Annie Hall'
+
+/*Write a SQL query to find the director who directed a movie that featured a role in 
+'Eyes Wide Shut'. Return director first name, last name and movie title. */
+select first_name, last_name, movie_title
+	from director join movie_direction
+	on director.director_id = movie_direction. director_id
+	join movie on movie.movie_id = movie_direction.movie_id
+	where movie.movie_title = 'Eyes Wide Shut'
+
+/*Write a SQL query to find out which actors have not appeared in any movies between 1990 
+and 2000 inclusive. Return actor first name, last name, movie title and release year. */
+select first_name, last_name, movie_title, movie_year
+from actor join movie_cast on actor.actor_id = movie_cast.actor_id
+join movie on movie.movie_id = movie_cast.movie_id
+where movie_year not between 1990 and 2000
+
+/*Create a SQL Procedure to find the director of a movie that cast any given role. 
+Return director first name, last name and movie title. */
+create procedure find_director @role varchar(15) 
+as
+	select first_name, last_name, movie_title 
+	from director 
+	join movie_direction on director.director_id = movie_direction.director_id
+	join movie_cast on movie_cast.movie_id = movie_direction.movie_id
+	join movie on movie.movie_id = movie_cast.movie_id
+	where movie_cast.role = @role
+go
+
+exec find_director @role = 'Miss Giddens'
+
+/*Write a SQL query to find the movies released before 1st January 1989. Sort the 
+result-set in descending order by date of release. Return movie title, release year, 
+date of release, duration, and first and last name of the director.	*/
+select movie_title, movie_year, movie_rl_date, movie_time, first_name as DirectorName, last_name as DirectorSurname
+from movie 
+join movie_direction on movie.movie_id = movie_direction.movie_id
+join director on movie_direction.director_id = director. director_id
+where movie_rl_date < '1989-01-01'
+order by movie_rl_date desc
+
+/*Write a SQL query to find out which movies have received ratings. 
+Return movie title, director first name, director last name and review stars.*/
+select movie_title, first_name, last_name, reviewer_stars
+from movie 
+left join rating on movie.movie_id = rating.movie_id
+left join movie_direction on movie_direction.movie_id = rating.movie_id
+left join director on director.director_id = movie_direction.director_id
+where number_ratings is not null
+
+
+/*Making use of a sub-query, write a SQL query to find movies in which one or more actors 
+have acted in more than one film. Return movie title, actor first and last name, and the 
+role.*/
+select movie_title, first_name, last_name, role
+from movie 
+join movie_cast on movie.movie_id = movie_cast.movie_id
+join actor on actor.actor_id = movie_cast.actor_id
+where actor.actor_id in
+	(select movie_cast.actor_id from movie_cast 
+		group by movie_cast.actor_id having count(*) >= 2)
+
+
+select * from movie
+select * from actor
+select * from director
+select * from reviewer
+select * from rating
+select * from movie_cast
+select * from movie_genres
+select * from genre
+select * from movie_direction
